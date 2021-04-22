@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="filename">log/my-demo.log</Property>
+        <!-- https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout -->
+        <!-- https://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender -->
+        <Property name="pattern">%d{ISO8601} %5p %c{1}:%L %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <RandomAccessFile name="MyFile" fileName="${filename}">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+        </RandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Root>
+            <AppenderRef ref="stdout"/>
+        </Root>
+
+        <AsyncLogger name="my.lab"
+                     level="trace"
+                     additivity="true">
+            <AppenderRef ref="MyFile"/>
+        </AsyncLogger>
+    </Loggers>
+</Configuration>
